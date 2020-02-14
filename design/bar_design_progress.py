@@ -20,10 +20,10 @@ class Ui_MainWindow(object):
         self.plainTextEdit.setMinimumSize(QtCore.QSize(0, 0))
         self.plainTextEdit.setBaseSize(QtCore.QSize(0, 0))
         self.plainTextEdit.setObjectName("plainTextEdit")
+        self.plainTextEdit.setReadOnly(True)
+        self.plainTextEdit.viewport().setAutoFillBackground(False)
         self.gridLayout.addWidget(self.plainTextEdit, 1, 0, 1, 3)
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setObjectName("pushButton")
-        self.gridLayout.addWidget(self.pushButton, 0, 0, 1, 1)
+#        self.gridLayout.addWidget(self.pushButton, 0, 0, 1, 1)
         self.toolButton = QtWidgets.QToolButton(self.centralwidget)
         self.toolButton.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.toolButton.setObjectName("toolButton")
@@ -45,9 +45,6 @@ class Ui_MainWindow(object):
         self.progressBar.setObjectName("progressBar")
         self.gridLayout.addWidget(self.progressBar, 4, 0, 1, 3)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -55,7 +52,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "PushButton"))
+#        self.pushButton.setText(_translate("MainWindow", "PushButton"))
         self.toolButton.setText(_translate("MainWindow", "..."))
         self.pushButton_2.setText(_translate("MainWindow", "Отправить"))
 
