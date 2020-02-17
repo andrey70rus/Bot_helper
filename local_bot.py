@@ -52,14 +52,20 @@ class ExampleApp(QtWidgets.QMainWindow, bar_design_progress.Ui_MainWindow):
             self.list.append(self.typing)
             self.typing = ''
             self.counter += 1
+
+            if questions[self.counter] == 'Выберите папку':
+                self.plainTextEdit.appendHtml('BOT: <b><span style=color:#33CCCC;> Выберите папку </span></b><br>')
+                folderpath = self.open_folder()
+                self.list.append(folderpath)
+                self.plainTextEdit.appendHtml('Я: <b><span style=color:#3399CC;>' + folderpath + '</span></b><br>')
+                self.counter += 1
+
             if self.counter < len(questions):
                 return(questions[self.counter])
             else:
                 self.flag_req = 0
                 self.flag_start_dll = 1
                 return
-
-
 
     def recognize_cmd(self, cmd):
         #распознавание команды "нечеткой логикой"
@@ -84,15 +90,19 @@ class ExampleApp(QtWidgets.QMainWindow, bar_design_progress.Ui_MainWindow):
             os.system('xdg-open //home//andreyk//Загрузки//List_only.csv')
     
         elif cmd == 'ch_projnumber':
-            questions = ["Введите шифр формируемого комплекта", "Введите подшифр", "Укажите Тип комплекта", "Выберите Заказчика", "Введите наименование объекта", "Введите И. О. Фамилия ГИП", "Должность разработчика", "Введите Фамилия И.О. разработчика", "Введите папку"]
+            questions = ["Введите шифр формируемого комплекта", "Введите подшифр", "Укажите Тип комплекта",
+                         "Выберите Заказчика", "Введите наименование объекта", "Введите И. О. Фамилия ГИП",
+                         "Должность разработчика", "Введите Фамилия И.О. разработчика", "Выберите папку"]
 
             question = self.ch_projnumber(questions)
 
             if self.flag_start_dll == 0:
-            	return(question)
+                return(question)
             else:
                 self.flag_start_dll = 0
+                print(self.list)
                 return('Процесс завершен!')
+
 # вызов библиотеки проасу
 
         else:
@@ -123,7 +133,7 @@ class ExampleApp(QtWidgets.QMainWindow, bar_design_progress.Ui_MainWindow):
 
         self.out = self.recognize_cmd(self.cmd)
         self.out = self.execute_cmd(self.out['cmd'])
-        self.plainTextEdit.appendHtml('BOT: <b><span style=color:#33CCCC; text-alignment:right;>' + self.out + '</span></b><br>')
+        self.plainTextEdit.appendHtml('BOT: <b><span style=color:#33CCCC;>' + self.out + '</span></b><br>')
 
 
     def call_recognize(self, recognizer, audio):
@@ -138,9 +148,7 @@ class ExampleApp(QtWidgets.QMainWindow, bar_design_progress.Ui_MainWindow):
         if self.flag_req != 0:
             self.typing = self.lineEdit.text()
 
-
         self.plainTextEdit.appendPlainText(self.cmd)
-
 
         print('Вы сказали: ' + self.cmd)
 
@@ -161,7 +169,9 @@ class ExampleApp(QtWidgets.QMainWindow, bar_design_progress.Ui_MainWindow):
         else:
             self.timer.start(100, self)    	
 
-
+    def open_folder(self):
+        foldername = QtWidgets.QFileDialog.getExistingDirectory(self, 'Укажите папку', '/home')
+        return foldername
 
 
 
