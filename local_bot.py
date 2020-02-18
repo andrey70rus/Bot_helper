@@ -40,28 +40,42 @@ class ExampleApp(QtWidgets.QMainWindow, bar_design_progress.Ui_MainWindow):
         self.list = []
         self.flag_req = 0
         self.flag_start_dll = 0
+        self.questions = []
 
-    def ch_projnumber(self, questions):
+    def ch_projnumber(self):
         #выполнени опроса и формирование словаря для дальнейшей передачи в сапр
         if self.flag_req == 0:
             self.list = []
             self.counter = 0
             self.flag_req = 1
-            return(questions[0])
+            return(self.questions[0])
         if self.flag_req == 1:
             self.list.append(self.typing)
             self.typing = ''
             self.counter += 1
 
-            if questions[self.counter] == 'Выберите папку':
+            if self.questions[self.counter] == 'Укажите Тип комплекта':
+                self.items = ['АК', 'АСУ ТП', 'АТХ', 'АТ', 'АСУЭ', 'АПТ']
+                self.combobox(self.items)
+
+            if self.questions[self.counter] == 'Выберите Заказчика':
+                self.items = ['Заказчик1', 'Заказчик2']
+                self.combobox(self.items)
+
+
+            if self.questions[self.counter] == 'Должность разработчика':
+                self.items = ['Инженер 2 категории', 'Инженер 1 категории', 'Инженер', 'Ведущий инженер']
+                self.combobox(self.items)
+
+            if self.questions[self.counter] == 'Выберите папку':
                 self.plainTextEdit.appendHtml('BOT: <b><span style=color:#33CCCC;> Выберите папку </span></b><br>')
                 folderpath = self.open_folder()
                 self.list.append(folderpath)
                 self.plainTextEdit.appendHtml('Я: <b><span style=color:#3399CC;>' + folderpath + '</span></b><br>')
                 self.counter += 1
 
-            if self.counter < len(questions):
-                return(questions[self.counter])
+            if self.counter < len(self.questions):
+                return(self.questions[self.counter])
             else:
                 self.flag_req = 0
                 self.flag_start_dll = 1
@@ -90,11 +104,11 @@ class ExampleApp(QtWidgets.QMainWindow, bar_design_progress.Ui_MainWindow):
             os.system('xdg-open //home//andreyk//Загрузки//List_only.csv')
     
         elif cmd == 'ch_projnumber':
-            questions = ["Введите шифр формируемого комплекта", "Введите подшифр", "Укажите Тип комплекта",
+            self.questions = ["Введите шифр формируемого комплекта", "Введите подшифр", "Укажите Тип комплекта",
                          "Выберите Заказчика", "Введите наименование объекта", "Введите И. О. Фамилия ГИП",
                          "Должность разработчика", "Введите Фамилия И.О. разработчика", "Выберите папку"]
 
-            question = self.ch_projnumber(questions)
+            question = self.ch_projnumber()
 
             if self.flag_start_dll == 0:
                 return(question)
@@ -142,7 +156,7 @@ class ExampleApp(QtWidgets.QMainWindow, bar_design_progress.Ui_MainWindow):
         m = sr.Microphone(device_index=1)
 #        with m as source:
 #            r.adjust_for_ambient_noise(source)
-
+        self.plainTextEdit.appendHtml('BOT: <b><span style=color:#33CCCC;> Жду Вашу команду... </span></b><br>')
         if self.flag_req == 0:
             self.cmd = recognizer.recognize_google(audio, language = "ru-RU").lower()
         if self.flag_req != 0:
@@ -173,7 +187,21 @@ class ExampleApp(QtWidgets.QMainWindow, bar_design_progress.Ui_MainWindow):
         foldername = QtWidgets.QFileDialog.getExistingDirectory(self, 'Укажите папку', '/home')
         return foldername
 
+    def combobox(self, items):
 
+        self.plainTextEdit.appendHtml('BOT: <b><span style=color:#33CCCC;>' + self.questions[self.counter] + '</span></b><br>')
+        text, ok = QtWidgets.QInputDialog.getItem(self, self.questions[self.counter], '', items, 0, False)
+
+        if ok:
+            self.list.append(text)
+            self.plainTextEdit.appendHtml('Я: <b><span style=color:#3399CC;>' + text + '</span></b><br>')
+            self.counter += 1
+
+#        typecompl, ok = QtWidgets.QInputDialog.getText(self, 'Укажите Тип комплекта')
+
+#        if ok:
+#            self.le.setText(str(typecompl))
+#        return typecompl
 
 if __name__ == '__main__':
     
