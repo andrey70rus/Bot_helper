@@ -12,12 +12,13 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(386, 441)
+        self.setWindowIcon(QtGui.QIcon('design/window_ico.png'))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
         self.centralwidget.setAutoFillBackground(True)
         self.palet = self.centralwidget.palette()
-        self.palet.setColor(self.centralwidget.backgroundRole(), QtGui.QColor(128, 128, 128, 15))
+        self.palet.setColor(self.centralwidget.backgroundRole(), QtGui.QColor(128, 128, 128, 45))
         self.centralwidget.setPalette(self.palet)
-        self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
         self.plainTextEdit = QtWidgets.QPlainTextEdit(self.centralwidget)
@@ -27,10 +28,11 @@ class Ui_MainWindow(object):
         self.plainTextEdit.setReadOnly(True)
         self.plainTextEdit.viewport().setAutoFillBackground(False)
         self.gridLayout.addWidget(self.plainTextEdit, 1, 0, 1, 3)
-#        self.gridLayout.addWidget(self.pushButton, 0, 0, 1, 1)
         self.toolButton = QtWidgets.QToolButton(self.centralwidget)
         self.toolButton.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.toolButton.setObjectName("toolButton")
+        self.toolButton.setIcon(QtGui.QIcon('design/voice_ico.png'))
+        self.toolButton.setIconSize(QtCore.QSize(15, 15))
         self.gridLayout.addWidget(self.toolButton, 2, 2, 1, 1)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName("pushButton_2")
@@ -55,7 +57,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Цифровой помощник - Бот"))
 #        self.pushButton.setText(_translate("MainWindow", "PushButton"))
         self.toolButton.setText(_translate("MainWindow", "..."))
         self.pushButton_2.setText(_translate("MainWindow", "Отправить"))
